@@ -1,6 +1,6 @@
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
     allow do
-        logger.debug(ENV["API_DOMAIN"])
+        Rails.logger.debug "API_DOMAIN: #{ENV['API_DOMAIN']}"
         origins ENV["API_DOMAIN"] || ""
 
         resource '*',
