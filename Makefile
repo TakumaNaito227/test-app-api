@@ -9,4 +9,4 @@ ssh :
 	docker exec -it railsapi-nuxt-app-api-1 /bin/sh
 
 build:
-	docker-compose build --no-cache
+	docker-compose build api --no-cache
