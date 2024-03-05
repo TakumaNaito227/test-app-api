@@ -1,19 +1,15 @@
-require "validators/email_validator"
-
 class User < ApplicationRecord
   before_validation :downcase_email
 
   # gem 'bcrypt'
   has_secure_password
+
   # validates
   validates :name, presence: true, # 入力必須
-                   length: { # 文字数
-                     maximum: 30, # 最大文字数
-                     allow_blank: true, # Null, 空白文字の場合スキップ
-                   }
+                   length: { maximum: 30, allow_blank: true } # 文字数の最大値
 
-  validates :email, presence: true,
-                    email: { allow_blank: true }
+  # カスタムバリデータを使用
+  validates_with Validators::EmailValidator, attributes: [:email], allow_blank: true
 
   validates :password, presence: true, # 入力必須
                        length: { minimum: 8, allow_blank: true }, # 最小文字数
@@ -23,6 +19,7 @@ class User < ApplicationRecord
                          allow_blank: true,
                        },
                        allow_nil: true # 空パスワードのアップデートを許容(ユーザ新規登録時はhas_secure_passwordが検証する)
+
   ## methods
   class << self
     # emailからアクティブなユーザーを返す
